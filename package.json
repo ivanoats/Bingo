@@ -4,7 +4,9 @@
   "description": "Bingo demo app from pragmatic studio course",
   "main": "bingo.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deps": "npm install && elm package install",
+    "start": "brunch watch --server"
   },
   "keywords": [
     "elm",
@@ -12,6 +14,10 @@
     "pragmatic",
     "studio"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivanoats/bingo.git"
+  },
   "author": "Ivan Storck",
   "license": "ISC",
   "devDependencies": {
