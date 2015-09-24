@@ -1,0 +1,21 @@
+{
+  "name": "bingo",
+  "version": "0.0.0",
+  "description": "Bingo demo app from pragmatic studio course",
+  "main": "bingo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "elm",
+    "bingo",
+    "pragmatic",
+    "studio"
+  ],
+  "author": "Ivan Storck",
+  "license": "ISC",
+  "devDependencies": {
+    "brunch": "^1.8.5",
+    "elm-brunch": "^0.3.0"
+  }
+}
