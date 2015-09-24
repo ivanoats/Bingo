@@ -13,7 +13,7 @@ module.exports = {
     plugins: {
       elmBrunch: {
         mainModules: ["src/Bingo.elm", "src/BingoUtils.elm"],
-        outputFolder: "public"
+        outputFolder: "vendor"
       }
     }
   }
