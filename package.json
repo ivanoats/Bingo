@@ -5,7 +5,7 @@
   "main": "bingo.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deps": "npm install && elm package install",
+    "postinstall": "elm package install",
     "start": "brunch watch --server"
   },
   "keywords": [
