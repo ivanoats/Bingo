@@ -2,6 +2,9 @@
 
 module.exports = {
   config: {
+    paths: {
+      watched: ["app", "src"]
+    },
     files: {
       javascripts: {
         joinTo: "app.js"
@@ -13,7 +16,7 @@ module.exports = {
     plugins: {
       elmBrunch: {
         mainModules: ["src/Bingo.elm", "src/BingoUtils.elm"],
-        outputFolder: "vendor"
+        outputFolder: "public/"
       }
     }
   }
