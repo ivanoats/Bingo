@@ -4,10 +4,11 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import String exposing (toUpper, repeat, trimRight)
+import StartApp
 
 -- Model
 
-initalModel = {
+initialModel = {
    entries = [
      newEntry "Doing Agile" 200 2,
      newEntry "In the cloud" 300 3,
@@ -68,16 +69,23 @@ entryList entries =
   ul [ ] (List.map entryItem entries)
 
 
-view model =
+view address model =
   div [ id "container" ]
    [ pageHeader,
      entryList model.entries,
+     button
+       [ class "sort", onClick address Sort ]
+       [ text "Sort" ],
      pageFooter ]
 
 
 -- main
 main =
---  view (update Sort initalModel)
-  initalModel
-    |> update Sort
-    |> view
+  -- initalModel
+  --   |> update Sort
+  --   |> view
+  StartApp.start
+    { model = initialModel,
+      view = view,
+      update = update
+    }
