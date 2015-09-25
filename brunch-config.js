@@ -5,6 +5,9 @@ module.exports = {
     paths: {
       watched: ["app", "src"]
     },
+    server: {
+      port: 3000
+    },
     files: {
       javascripts: {
         joinTo: "app.js"
