@@ -291,23 +291,6 @@ Elm.Bingo.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $StartApp$Simple = Elm.StartApp.Simple.make(_elm),
    $String = Elm.String.make(_elm);
-   var entryItem = function (entry) {
-      return A2($Html.li,
-      _L.fromArray([]),
-      _L.fromArray([A2($Html.span,
-                   _L.fromArray([$Html$Attributes.$class("phrase")]),
-                   _L.fromArray([$Html.text(entry.phrase)]))
-                   ,A2($Html.span,
-                   _L.fromArray([$Html$Attributes.$class("points")]),
-                   _L.fromArray([$Html.text($Basics.toString(entry.points))]))]));
-   };
-   var entryList = function (entries) {
-      return A2($Html.ul,
-      _L.fromArray([]),
-      A2($List.map,
-      entryItem,
-      entries));
-   };
    var pageFooter = A2($Html.footer,
    _L.fromArray([]),
    _L.fromArray([A2($Html.a,
@@ -357,13 +340,43 @@ Elm.Bingo.make = function (_elm) {
       return {ctor: "Delete"
              ,_0: a};
    };
+   var entryItem = F2(function (address,
+   entry) {
+      return A2($Html.li,
+      _L.fromArray([]),
+      _L.fromArray([A2($Html.span,
+                   _L.fromArray([$Html$Attributes.$class("phrase")]),
+                   _L.fromArray([$Html.text(entry.phrase)]))
+                   ,A2($Html.span,
+                   _L.fromArray([$Html$Attributes.$class("points")]),
+                   _L.fromArray([$Html.text($Basics.toString(entry.points))]))
+                   ,A2($Html.button,
+                   _L.fromArray([$Html$Attributes.$class("delete")
+                                ,A2($Html$Events.onClick,
+                                address,
+                                Delete(entry.id))]),
+                   _L.fromArray([]))]));
+   });
+   var entryList = F2(function (address,
+   entries) {
+      return function () {
+         var entryItems = A2($List.map,
+         entryItem(address),
+         entries);
+         return A2($Html.ul,
+         _L.fromArray([]),
+         entryItems);
+      }();
+   });
    var Sort = {ctor: "Sort"};
    var view = F2(function (address,
    model) {
       return A2($Html.div,
       _L.fromArray([$Html$Attributes.id("container")]),
       _L.fromArray([pageHeader
-                   ,entryList(model.entries)
+                   ,A2(entryList,
+                   address,
+                   model.entries)
                    ,A2($Html.button,
                    _L.fromArray([$Html$Attributes.$class("sort")
                                 ,A2($Html$Events.onClick,

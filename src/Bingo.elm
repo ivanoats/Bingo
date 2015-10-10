@@ -64,21 +64,25 @@ pageFooter =
         [ text "by Ivan Storck" ] ]
 
 
-entryItem entry =
+entryItem address entry =
   li [ ]
-   [ span [ class "phrase" ] [ text entry.phrase ],
-     span [ class "points" ] [ text (toString entry.points) ]
-   ]
+    [ span [ class "phrase" ] [ text entry.phrase ],
+      span [ class "points" ] [ text (toString entry.points) ],
+      button
+        [ class "delete", onClick address (Delete entry.id) ] [ ]
+    ]
 
-
-entryList entries =
-  ul [ ] (List.map entryItem entries)
+entryList address entries =
+  let
+    entryItems = List.map (entryItem address) entries
+  in
+    ul [ ] entryItems
 
 
 view address model =
   div [ id "container" ]
    [ pageHeader,
-     entryList model.entries,
+     entryList address model.entries,
      button
        [ class "sort", onClick address Sort ]
        [ text "Sort" ],
