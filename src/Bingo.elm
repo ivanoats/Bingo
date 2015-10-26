@@ -8,6 +8,13 @@ import StartApp.Simple as StartApp
 
 -- Model
 
+type alias Entry =
+  { phrase: String, points: Int, wasSpoken: Bool, id: Int }
+
+type alias Model =
+  { entries: List Entry }
+
+initialModel : Model
 initialModel = {
    entries = [
      newEntry "Doing Agile" 200 2,
@@ -17,6 +24,7 @@ initialModel = {
    ]
   }
 
+newEntry : String -> Int -> Int -> Entry
 newEntry phrase points id =
   { phrase = phrase,
     points = points,
@@ -31,6 +39,7 @@ type Action
   | Delete Int
   | Mark Int
 
+update : Action -> Model -> Model
 update action model =
   case action of
     NoOp ->
@@ -53,6 +62,7 @@ update action model =
       in
         { model | entries <- List.map updateEntry model.entries }
 -- View
+title : String -> Int -> Html
 title message times =
   message ++ " "
     |> toUpper
@@ -61,16 +71,17 @@ title message times =
     |> text
 
 
+pageHeader : Html
 pageHeader =
   h1 [ ] [title "bingo!" 3]
 
-
+pageFooter : Html
 pageFooter =
   footer [ ]
     [ a [ href "https://ivanstorck.com"]
         [ text "by Ivan Storck" ] ]
 
-
+entryItem : Signal.Address Action -> Entry -> Html
 entryItem address entry =
   li
    [ classList [ ("highlight", entry.wasSpoken) ],
@@ -84,6 +95,7 @@ entryItem address entry =
    ]
 
 
+totalPoints : List Entry -> Int
 totalPoints entries =
   -- let
   --   spokenEntries = List.filter .wasSpoken entries
@@ -100,6 +112,7 @@ totalPoints entries =
     |> List.foldl (\e sum -> sum + e.points) 0
 
 
+totalItem : Int -> Html
 totalItem total =
   li
     [ class "total" ]
@@ -108,6 +121,8 @@ totalItem total =
       span [ class "points" ] [ text (toString total) ]
     ]
 
+
+entryList : Signal.Address Action -> List Entry -> Html
 entryList address entries =
   let
     entryItems = List.map (entryItem address) entries
@@ -115,7 +130,7 @@ entryList address entries =
   in
     ul [ ] items
 
-
+view : Signal.Address Action -> Model -> Html
 view address model =
   div [ id "container" ]
    [ pageHeader,
@@ -127,6 +142,7 @@ view address model =
 
 
 -- main
+main : Signal Html
 main =
   -- initalModel
   --   |> update Sort
