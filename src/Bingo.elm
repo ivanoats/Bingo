@@ -84,11 +84,26 @@ entryItem address entry =
    ]
 
 
+totalPoints entries =
+  let
+    spokenEntries = List.filter .wasSpoken entries
+  in
+    List.sum (List.map .points spokenEntries)
+
+totalItem total =
+  li
+    [ class "total" ]
+    [
+      span [ class "label" ] [ text "Total" ],
+      span [ class "points" ] [ text (toString total) ]
+    ]
+
 entryList address entries =
   let
     entryItems = List.map (entryItem address) entries
+    items = entryItems ++ [ totalItem (totalPoints entries) ]
   in
-    ul [ ] entryItems
+    ul [ ] items
 
 
 view address model =

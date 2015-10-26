@@ -291,6 +291,30 @@ Elm.Bingo.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $StartApp$Simple = Elm.StartApp.Simple.make(_elm),
    $String = Elm.String.make(_elm);
+   var totalItem = function (total) {
+      return A2($Html.li,
+      _L.fromArray([$Html$Attributes.$class("total")]),
+      _L.fromArray([A2($Html.span,
+                   _L.fromArray([$Html$Attributes.$class("label")]),
+                   _L.fromArray([$Html.text("Total")]))
+                   ,A2($Html.span,
+                   _L.fromArray([$Html$Attributes.$class("points")]),
+                   _L.fromArray([$Html.text($Basics.toString(total))]))]));
+   };
+   var totalPoints = function (entries) {
+      return function () {
+         var spokenEntries = A2($List.filter,
+         function (_) {
+            return _.wasSpoken;
+         },
+         entries);
+         return $List.sum(A2($List.map,
+         function (_) {
+            return _.points;
+         },
+         spokenEntries));
+      }();
+   };
    var pageFooter = A2($Html.footer,
    _L.fromArray([]),
    _L.fromArray([A2($Html.a,
@@ -385,9 +409,12 @@ Elm.Bingo.make = function (_elm) {
          var entryItems = A2($List.map,
          entryItem(address),
          entries);
+         var items = A2($Basics._op["++"],
+         entryItems,
+         _L.fromArray([totalItem(totalPoints(entries))]));
          return A2($Html.ul,
          _L.fromArray([]),
-         entryItems);
+         items);
       }();
    });
    var Sort = {ctor: "Sort"};
@@ -450,6 +477,8 @@ Elm.Bingo.make = function (_elm) {
                        ,pageHeader: pageHeader
                        ,pageFooter: pageFooter
                        ,entryItem: entryItem
+                       ,totalPoints: totalPoints
+                       ,totalItem: totalItem
                        ,entryList: entryList
                        ,view: view
                        ,main: main};
