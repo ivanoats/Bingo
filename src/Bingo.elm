@@ -90,10 +90,15 @@ totalPoints entries =
   -- in
   --   List.sum (List.map .points spokenEntries)
 
+  -- entries
+  --   |> List.filter .wasSpoken
+  --   |> List.map .points
+  --   |> List.sum
+
   entries
     |> List.filter .wasSpoken
-    |> List.map .points
-    |> List.sum
+    |> List.foldl (\e sum -> sum + e.points) 0
+
 
 totalItem total =
   li

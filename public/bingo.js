@@ -302,11 +302,13 @@ Elm.Bingo.make = function (_elm) {
                    _L.fromArray([$Html.text($Basics.toString(total))]))]));
    };
    var totalPoints = function (entries) {
-      return $List.sum($List.map(function (_) {
-         return _.points;
-      })($List.filter(function (_) {
+      return A2($List.foldl,
+      F2(function (e,sum) {
+         return sum + e.points;
+      }),
+      0)($List.filter(function (_) {
          return _.wasSpoken;
-      })(entries)));
+      })(entries));
    };
    var pageFooter = A2($Html.footer,
    _L.fromArray([]),
