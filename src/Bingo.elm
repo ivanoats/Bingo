@@ -29,6 +29,7 @@ type Action
   = NoOp
   | Sort
   | Delete Int
+  | Mark Int
 
 update action model =
   case action of
@@ -40,12 +41,18 @@ update action model =
 
     Delete id ->
       let
-        remainingEntries = List.filter (\e -> e.id /= id) model.entries
+        remainingEntries =
+          List.filter (\e -> e.id /= id) model.entries
       in
         { model | entries <- remainingEntries }
 
+    Mark id ->
+      let
+        updateEntry e =
+          if e.id == id then {e | wasSpoken <- (not e.wasSpoken) } else e
+      in
+        { model | entries <- List.map updateEntry model.entries }
 -- View
-
 title message times =
   message ++ " "
     |> toUpper
@@ -64,21 +71,30 @@ pageFooter =
         [ text "by Ivan Storck" ] ]
 
 
-entryItem entry =
-  li [ ]
+entryItem address entry =
+  li
+   [ classList [ ("highlight", entry.wasSpoken) ],
+     onClick address (Mark entry.id)
+   ]
    [ span [ class "phrase" ] [ text entry.phrase ],
-     span [ class "points" ] [ text (toString entry.points) ]
+     span [ class "points" ] [ text (toString entry.points) ],
+     button
+       [ class "delete", onClick address (Delete entry.id) ]
+       [ ]
    ]
 
 
-entryList entries =
-  ul [ ] (List.map entryItem entries)
+entryList address entries =
+  let
+    entryItems = List.map (entryItem address) entries
+  in
+    ul [ ] entryItems
 
 
 view address model =
   div [ id "container" ]
    [ pageHeader,
-     entryList model.entries,
+     entryList address model.entries,
      button
        [ class "sort", onClick address Sort ]
        [ text "Sort" ],
