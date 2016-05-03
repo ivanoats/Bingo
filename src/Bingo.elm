@@ -68,27 +68,27 @@ update action model =
       model
 
     Sort ->
-      { model | entries <- List.sortBy .points model.entries }
+      { model | entries = List.sortBy .points model.entries }
 
     Delete id ->
       let
         remainingEntries =
           List.filter (\e -> e.id /= id) model.entries
       in
-        { model | entries <- remainingEntries }
+        { model | entries = remainingEntries }
 
     Mark id ->
       let
         updateEntry e =
-          if e.id == id then { e | wasSpoken <- (not e.wasSpoken) } else e
+          if e.id == id then { e | wasSpoken = (not e.wasSpoken) } else e
       in
-        { model | entries <- List.map updateEntry model.entries }
+        { model | entries = List.map updateEntry model.entries }
 
     UpdatePhraseInput contents ->
-      { model | phraseInput <- contents }
+      { model | phraseInput = contents }
 
     UpdatePointsInput contents ->
-      { model | pointsInput <- contents }
+      { model | pointsInput = contents }
 
 
 -- View

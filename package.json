@@ -21,7 +21,7 @@
   "author": "Ivan Storck",
   "license": "ISC",
   "devDependencies": {
-    "brunch": "^1.8.5",
-    "elm-brunch": "^0.3.0"
+    "brunch": "^2.7.4",
+    "elm-brunch": "^0.4.4"
   }
 }
